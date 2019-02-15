@@ -20,6 +20,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import org.joda.time.LocalDate;
 import java.util.UUID;
 import java.util.ArrayList;
@@ -31,13 +37,18 @@ public class ProjectController {
 @RequestMapping(
   value = "/newProductOwner", 
   method = RequestMethod.POST,
-  produces = "application/json"
+  produces = "application/json;charset=UTF-8"
 )
 @ResponseBody 
-public Description getDescription(@RequestBody ProductOwner data){
-    return new Description(data.getFirstName() + " " + data.getLastname() + " hates wacky wabbits"
-     + " and his username is " + data.getUsername() + " and his email is " + data.getEmail() + " and his password is "
-     + data.getPassword());
+public String getNewProductOwnerResultStatus(@RequestBody ProductOwner data){
+    JSONObject jsonObj = new JSONObject();
+    jsonObj.put("firstName", data.getFirstName());
+    jsonObj.put("lastName", data.getLastname());
+    jsonObj.put("username", data.getUsername());
+    jsonObj.put("password", data.getPassword());
+    jsonObj.put("email", data.getEmail());
+    
+    return jsonObj.toJSONString();
 }
 
 @RequestMapping(
@@ -46,16 +57,25 @@ public Description getDescription(@RequestBody ProductOwner data){
   produces = "application/json"
 )
 @ResponseBody 
-public Description getDescription(@RequestBody Project data){
-    return new Description(
-    data.getProjectName() + System.lineSeparator() +
-    data.getOwnerName() + System.lineSeparator() +
-    data.getOffer() + System.lineSeparator() +
-    data.getWorktype() + System.lineSeparator() +
-    data.getDeadline() + System.lineSeparator() +
-    data.getMaximumBudget() + System.lineSeparator() +
-    data.getLowestBid() + System.lineSeparator() +
-    data.getLowestBidder());
+public String getNewProjectResultStatus(@RequestBody Project data){
+    JSONObject jsonObj = new JSONObject();
+    jsonObj.put("projectName", data.getProjectName());
+    jsonObj.put("projectDescription", data.getProjectDescription());
+    jsonObj.put("productOwnerName", data.getProductOwnerName());
+    jsonObj.put("worktype", data.getWorkType());
+    jsonObj.put("deadline", data.getDeadline());
+    jsonObj.put("maximumBudget", data.getMaximumBudget());
+
+    return jsonObj.toJSONString();
+      // return new JSONMessage(
+    // data.getProjectName() + " " +
+    // data.getProjectDescription() + " " +
+    // data.getProductOwnerName() + " " +
+    // data.getWorkType() + " " +
+    // data.getDeadline() + " " +          
+    // data.getMaximumBudget() + " " 
+    // );
+
 }
 
 }

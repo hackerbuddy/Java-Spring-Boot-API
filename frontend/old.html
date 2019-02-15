@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+    
+<h2>New Product Owner </h2>
+
+<form action="javascript:alert( &#39;form submitted!&#39; );" id= "newPOForm">
+  <div>
+  First Name:
+  <br>
+  <input type="text" id="firstname">
+  <br>
+  Last Name:<br>
+  <input type="text" id="lastname">
+  <br>
+  Email:<br>
+  <input type="text" id="email">
+  <br>
+  Username:<br>
+  <input type="text" id="username">
+  <br>
+  Password:<br>
+  <input type="text" id="password">
+  <br><br>   
+  <input type="submit">
+  </div>
+</form>
+<span></span>
+
+<h2>New Project </h2>
+
+<form action="javascript:alert( &#39;form submitted!&#39; );" id= "newProjForm">
+  <div>
+  Project Name:
+  <br>
+  <input type="text" id="projectName">
+  <br>
+  Project Description:<br>
+  <input type="text" id="projectDescription">
+  <br>
+  Product Owner Name:
+  <br>
+  <input type="text" id="productOwnerName">
+  Work Types: (seperated by spaces)
+  <br>
+  <input type="text" id="workTypes">
+  <br>
+  Deadline: <br>
+  <input type="text" id="deadline">
+  <br>
+  Max Budget:<br>
+  <input type="text" id="maxBudget">
+  </div>
+</form>   
+    
+<script>
+$( "#newPOform" ).submit(function( event ) {
+      var myObject = {
+          firstName: $( "#firstname" ).val(),
+          lastName:$( "#lastname" ).val(),
+          username:$( "#username" ).val(),
+          password:$( "#password" ).val(),
+          email:$( "#email" ).val()
+    };   
+    var myJSON = JSON.stringify(myObject);
+    console.log(myJSON);
+    $.ajax({
+            url: "http://localhost:8080/description",
+            type: "POST",
+            crossDomain: true,
+            data: myJSON,
+            dataType: "json",
+            contentType:"application/json",
+            success: function (response) {
+                displayStatus(response);
+            },
+            error: function (xhr, status) {
+                alert("error");
+            }
+    });
+    
+    function displayStatus(response){
+        console.log(response);
+    }
+    
+}); 
+$( "#newProjForm" ).submit(function( event ) {
+      var myObject = {
+          firstName: $( "#projectName" ).val(),
+          lastName:$( "#projectDescription" ).val(),
+          username:$( "#productOwnerName" ).val(),
+          password:$( "#workTypes" ).val(),
+          email:$( "#deadline" ).val(),
+          maxBudget:$( "#maxBudget" ).val()
+    };   
+    var myJSON = JSON.stringify(myObject);
+    console.log(myJSON);
+    $.ajax({
+            url: "http://localhost:8080/description",
+            type: "POST",
+            crossDomain: true,
+            data: myJSON,
+            dataType: "json",
+            contentType:"application/json",
+            success: function (response) {
+                displayStatus(response);
+            },
+            error: function (xhr, status) {
+                alert("error");
+            }
+    });
+    
+    function displayStatus(response){
+        console.log(response);
+    }
+    
+});
+    
+</script>
+    
+    
+</body></html>

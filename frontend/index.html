@@ -2,62 +2,115 @@
 
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<style>
+    
+    #workTypeCheckBox{
+        display:block;
+        width: 100px;
+        border-style: solid;
+        border-width: thin;   
+        border-color: darkgray;
+    }
+    div{
+        padding-bottom: 5px;
+    }
+    form{
+        display:block;
+        width: 180px;
+        border-style: solid;
+        border-width: thin;   
+        border-color: darkgray;
+    }
+    .inside{
+        padding-left: 5px;
+    }
+    .submit{
+        padding-top: 5px;
+    }
+}
+    
+</style>    
+
 </head>
 <body>
     
 <h2>New Product Owner </h2>
-
 <form action="javascript:alert( &#39;form submitted!&#39; );" id= "newPOForm">
-  <div>
-  First Name:
-  <br>
-  <input type="text" id="firstname">
-  <br>
-  Last Name:<br>
-  <input type="text" id="lastname">
-  <br>
-  Email:<br>
-  <input type="text" id="email">
-  <br>
-  Username:<br>
-  <input type="text" id="username">
-  <br>
-  Password:<br>
-  <input type="text" id="password">
-  <br><br>   
-  <input type="submit">
+  <div class="inside">
+      First Name:<br>
+      <input type="text" id="firstname">
+      <br>
+  </div>
+  <div class="inside">
+      Last Name:<br>
+      <input type="text" id="lastname">
+      <br>
+  </div>
+  <div class="inside">
+      Email:<br>
+      <input type="email" id="email">
+      <br>
+  </div>
+  <div class="inside">
+      Username:<br>
+      <input type="text" id="username">
+      <br>
+  </div>
+  <div class="inside">
+      Password:<br>
+      <input type="text" id="password">
+      <br>
+  </div>  
+  <div class="inside submit">
+      <input type="submit">
   </div>
 </form>
-<span></span>
 
 <h2>New Project </h2>
 
 <form action="javascript:alert( &#39;form submitted!&#39; );" id= "newProjForm">
-  <div>
-  Project Name:
-  <br>
-  <input type="text" id="projectName">
-  <br>
-  Project Description:<br>
-  <input type="text" id="projectDescription">
-  <br>
-  Product Owner Name:
-  <br>
-  <input type="text" id="productOwnerName">
-  Work Types: (seperated by spaces)
-  <br>
-  <input type="text" id="workTypes">
-  <br>
-  Deadline: <br>
-  <input type="text" id="deadline">
-  <br>
-  Max Budget:<br>
-  <input type="text" id="maxBudget">
+  <div class="inside">
+      Project Name:<br>
+      <input type="text" id="projectName">
+      <br>  
+  </div>
+  <div class="inside">
+      Project Description:<br>
+      <input type="text" id="projectDescription">
+      <br>
+  </div>
+  <div class="inside">
+      Product Owner Name:<br>
+      <input type="text" id="productOwnerName">
+      <br>
+  </div>
+  <div class="inside">           
+      Work Types:
+      <span id="workTypeCheckBox">
+          <input type="checkbox" id="frontend"> Frontend<br>
+          <input type="checkbox" id="backend"> Backend<br>
+          <input type="checkbox" id="ux"> UX<br>
+          <input type="checkbox" id="sysadmin"> Sysadmin<br>
+          <input type="checkbox" id="other"> Other
+      </span>   
+  </div>
+  <div class="inside">
+       Deadline:<br>
+       <input type="date" id="deadline">
+       <br>
+  </div>
+  <div class="inside">
+       Max Budget USD:<br>
+       <input type="number" id="maximumBudget">
+       <br>
+  </div>     
+  <div class ="inside submit">
+       <input type="submit">
   </div>
 </form>   
     
 <script>
-$( "#newPOform" ).submit(function( event ) {
+$( "#newPOForm" ).submit(function( event ) {
       var myObject = {
           firstName: $( "#firstname" ).val(),
           lastName:$( "#lastname" ).val(),
@@ -68,7 +121,7 @@ $( "#newPOform" ).submit(function( event ) {
     var myJSON = JSON.stringify(myObject);
     console.log(myJSON);
     $.ajax({
-            url: "http://localhost:8080/description",
+            url: "http://localhost:8080/newProductOwner",
             type: "POST",
             crossDomain: true,
             data: myJSON,
@@ -87,19 +140,26 @@ $( "#newPOform" ).submit(function( event ) {
     }
     
 }); 
-$( "#newProjForm" ).submit(function( event ) {
+    
+$( "#newProjForm" ).submit(function( event ) {  
       var myObject = {
-          firstName: $( "#projectName" ).val(),
-          lastName:$( "#projectDescription" ).val(),
-          username:$( "#productOwnerName" ).val(),
-          password:$( "#workTypes" ).val(),
-          email:$( "#deadline" ).val(),
-          maxBudget:$( "#maxBudget" ).val()
+          projectName: $("#projectName" ).val(),
+          projectDescription:$("#projectDescription" ).val(),
+          productOwnerName:$("#productOwnerName" ).val(),
+          worktype:{
+              frontend:$("#frontend").val(),
+              backend:$("#backend").val(),
+              ux:$("#ux").val(),
+              sysadmin:$("#sysadmin").val(),
+              other:$("#other").val()
+          },
+          deadline:$( "#deadline" ).val(),
+          maximumBudget:$( "#maximumBudget" ).val()
     };   
     var myJSON = JSON.stringify(myObject);
     console.log(myJSON);
     $.ajax({
-            url: "http://localhost:8080/description",
+            url: "http://localhost:8080/newProject",
             type: "POST",
             crossDomain: true,
             data: myJSON,
