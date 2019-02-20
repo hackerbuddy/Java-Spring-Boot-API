@@ -18,9 +18,9 @@ Query for Projects based on Name (fuzzy match), Work Type, and where the Deadlin
 
 public class Project {
 
-    private int id=-1; //use uuid later
+    private long id; //use uuid later
     private String projectName="none";
-    private String productOwnerName="none";
+    private String productOwner="none";
     private int ownerId=-1; //use uuid later
     private String projectDescription= "none";
     private String workType = "empty"; //json string
@@ -38,16 +38,46 @@ public class Project {
     private boolean sysadmin = false;
     private boolean other = false;
 
+    // public ProductOwner(long id, String firstName, String lastName){
+    //     this.id = id;
+    //     this.firstName = firstName;
+    //     this.lastName = lastName;
+    // }
+
+    // public ProductOwner(String firstName, String lastName){
+    //     this.firstName = firstName;
+    //     this.lastName = lastName;
+    // }
+
+    // public ProductOwner(){
+        
+    // }
+    public Project(long id, String projectName, String projectDescription, String productOwner){
+        this.id = id;
+        this.projectDescription = projectDescription;
+        this.projectName = projectName;
+        this.productOwner = productOwner;
+    }
+
+    public Project(String projectName, String projectDescription, String productOwner){
+        this.projectName = projectName;
+        this.productOwner = productOwner;
+    }
+
+    public Project(){
+        
+    }
+
     public String getOffer(){
         return Double.toString(offer);
     }
     
-    public String getId(){
-        return Integer.toString(id);
+    public long getId(){
+        return id;
     }
 
-    public String getProductOwnerName(){
-        return productOwnerName;
+    public String getProductOwner(){
+        return productOwner;
     }
    
     public String getOwnerId(){
@@ -85,8 +115,8 @@ public class Project {
     public void setOffer(String offer){
         this.offer = Float.parseFloat(offer);
     }
-    public void setProductOwnerName(String productOwnerName){
-        this.productOwnerName = productOwnerName;
+    public void setProductOwner(String productOwner){
+        this.productOwner = productOwner;
     }
     public void setProjectDescription(String projectDescription){
         this.projectDescription = projectDescription;
@@ -94,7 +124,6 @@ public class Project {
 
     public void setWorkType(String workType){
         JSONParser parser = new JSONParser();
-
         JSONObject json;
         try{
         json = (JSONObject) parser.parse(workType);
@@ -141,5 +170,11 @@ public class Project {
         this.lowestBidder = lowestBidder;
     }
 
+    @Override
+    public String toString() {
+        return String.format(
+                "Project[id=%d, projectName='%s', projectDescription='%s', productOwner='%s']",
+                 id, projectName, projectDescription, productOwner);
+    }
 
 }

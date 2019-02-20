@@ -80,8 +80,8 @@
       <br>
   </div>
   <div class="inside">
-      Product Owner Name:<br>
-      <input type="text" id="productOwnerName">
+      Product Owner:<br>
+      <input type="text" id="productOwner">
       <br>
   </div>
   <div class="inside">           
@@ -145,7 +145,7 @@ $( "#newProjForm" ).submit(function( event ) {
       var myObject = {
           projectName: $("#projectName" ).val(),
           projectDescription:$("#projectDescription" ).val(),
-          productOwnerName:$("#productOwnerName" ).val(),
+          productOwner:$("#productOwner" ).val(),
           worktype:{
               frontend:$("#frontend").val(),
               backend:$("#backend").val(),

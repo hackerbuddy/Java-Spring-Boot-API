@@ -65,11 +65,15 @@ public class ProjectController {
     produces = "application/json"
   )
   @ResponseBody 
-  public String getNewProjectResultStatus(@RequestBody Project data){
+  public String getNewProjectResultStatus(@RequestBody Project data) throws Exception{
+
+      ProjectDAO proj = new ProjectDAO();
+      proj.insertProjectNameAndDescriptionAndPO(data);
+
       JSONObject jsonObj = new JSONObject();
       jsonObj.put("projectName", data.getProjectName());
       jsonObj.put("projectDescription", data.getProjectDescription());
-      jsonObj.put("productOwnerName", data.getProductOwnerName());
+      jsonObj.put("productOwner", data.getProductOwner());
       jsonObj.put("worktype", data.getWorkType());
       jsonObj.put("deadline", data.getDeadline());
       jsonObj.put("maximumBudget", data.getMaximumBudget());

@@ -29,8 +29,8 @@ public class Application implements CommandLineRunner{
     public void run(String... strings) throws Exception {
         ProductOwnerDAO poDAO = new ProductOwnerDAO(jdbcTemplate);
         poDAO.initializeDBTables();
-        //poDAO.initializeDBTables();
-        //poDAO.databaseTest();
+        ProjectDAO projDAO = new ProjectDAO(jdbcTemplate);
+        projDAO.initializeDBTables();
     }
 
 }
