@@ -1,23 +1,38 @@
 package bidding;
 import java.util.ArrayList;
 import java.util.UUID;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 public class ProductOwner{
+
     private String firstName;
     private String lastName;
     private String username;
     private String password;
     private String email;
 
-    private final UUID id = java.util.UUID.randomUUID();
+    private long id;
     private ArrayList<Project> projectsForSale = new ArrayList<Project>(); 
     private ArrayList<Project> projectsSold = new ArrayList<Project>(); 
+
+    public ProductOwner(long id, String firstName, String lastName){
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public ProductOwner(String firstName, String lastName){
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public ProductOwner(){
+        
+    }
 
     public String getFirstName(){
         return firstName;
     }
-    public String getLastname(){
+    public String getLastName(){
         return lastName;
     }
     public String getUsername(){
@@ -29,7 +44,9 @@ public class ProductOwner{
     public String getEmail(){
         return email;
     }
-
+    public long getId(){
+        return id; 
+    }
     public void setFirstName(String firstName){
         this.firstName = firstName;
     }
@@ -44,5 +61,12 @@ public class ProductOwner{
     }
     public void setEmail(String email){
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "ProductOwner[id=%d, firstName='%s', lastName='%s']",
+                id, firstName, lastName);
     }
 }

@@ -1,5 +1,5 @@
 package bidding;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,20 +36,25 @@ import java.util.ArrayList;
 
 @RestController
 public class ProjectController {
-
+ 
   @RequestMapping(
     value = "/newProductOwner", 
     method = RequestMethod.POST,
     produces = "application/json;charset=UTF-8"
   )
   @ResponseBody 
-  public String getNewProductOwnerResultStatus(@RequestBody ProductOwner data){
+  public String getNewProductOwnerResultStatus(@RequestBody ProductOwner data) throws Exception{
+      
+      ProductOwnerDAO poDAO = new ProductOwnerDAO();
+      poDAO.insertFirstAndLastName(data);
+    
       JSONObject jsonObj = new JSONObject();
       jsonObj.put("firstName", data.getFirstName());
-      jsonObj.put("lastName", data.getLastname());
+      jsonObj.put("lastName", data.getLastName());
       jsonObj.put("username", data.getUsername());
       jsonObj.put("password", data.getPassword());
       jsonObj.put("email", data.getEmail());
+      jsonObj.put("uuid", data.getId());
       
       return jsonObj.toJSONString();
   }
