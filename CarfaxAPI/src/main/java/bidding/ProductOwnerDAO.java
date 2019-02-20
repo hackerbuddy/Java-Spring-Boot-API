@@ -45,9 +45,9 @@ public class ProductOwnerDAO{
         // Uses JdbcTemplate's batchUpdate operation to bulk load data
         jdbcTemplate.batchUpdate("INSERT INTO productOwners(first_name, last_name) VALUES (?,?)", listOfProductOwners);
 
-        log.info("Querying for productOwner records where first_name = 'Braden':");
+        log.info("Querying for all product owner records:");
         jdbcTemplate.query(
-                "SELECT id, first_name, last_name FROM productOwners WHERE first_name = ?", new Object[] { "Braden" },
+                "SELECT id, first_name, last_name FROM productOwners WHERE id > ?", new Object[] { "0" },
                 (rs, rowNum) -> new ProductOwner(rs.getLong("id"), rs.getString("first_name"), rs.getString("last_name"))
         ).forEach(productOwner -> log.info(productOwner.toString()));
     }
