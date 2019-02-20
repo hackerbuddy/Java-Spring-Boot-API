@@ -1,7 +1,6 @@
 package bidding;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-@CrossOrigin(origins = "*")
 public class Greeting {
 
     private final String content;

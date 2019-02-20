@@ -19,6 +19,10 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.json.simple.JSONArray;
@@ -30,54 +34,46 @@ import org.joda.time.LocalDate;
 import java.util.UUID;
 import java.util.ArrayList;
 
-@CrossOrigin(origins = "*")
 @RestController
 public class ProjectController {
 
-@RequestMapping(
-  value = "/newProductOwner", 
-  method = RequestMethod.POST,
-  produces = "application/json;charset=UTF-8"
-)
-@ResponseBody 
-public String getNewProductOwnerResultStatus(@RequestBody ProductOwner data){
-    JSONObject jsonObj = new JSONObject();
-    jsonObj.put("firstName", data.getFirstName());
-    jsonObj.put("lastName", data.getLastname());
-    jsonObj.put("username", data.getUsername());
-    jsonObj.put("password", data.getPassword());
-    jsonObj.put("email", data.getEmail());
-    
-    return jsonObj.toJSONString();
-}
+  @RequestMapping(
+    value = "/newProductOwner", 
+    method = RequestMethod.POST,
+    produces = "application/json;charset=UTF-8"
+  )
+  @ResponseBody 
+  public String getNewProductOwnerResultStatus(@RequestBody ProductOwner data){
+      JSONObject jsonObj = new JSONObject();
+      jsonObj.put("firstName", data.getFirstName());
+      jsonObj.put("lastName", data.getLastname());
+      jsonObj.put("username", data.getUsername());
+      jsonObj.put("password", data.getPassword());
+      jsonObj.put("email", data.getEmail());
+      
+      return jsonObj.toJSONString();
+  }
 
-@RequestMapping(
-  value = "/newProject", 
-  method = RequestMethod.POST,
-  produces = "application/json"
-)
-@ResponseBody 
-public String getNewProjectResultStatus(@RequestBody Project data){
-    JSONObject jsonObj = new JSONObject();
-    jsonObj.put("projectName", data.getProjectName());
-    jsonObj.put("projectDescription", data.getProjectDescription());
-    jsonObj.put("productOwnerName", data.getProductOwnerName());
-    jsonObj.put("worktype", data.getWorkType());
-    jsonObj.put("deadline", data.getDeadline());
-    jsonObj.put("maximumBudget", data.getMaximumBudget());
+  @RequestMapping(
+    value = "/newProject", 
+    method = RequestMethod.POST,
+    produces = "application/json"
+  )
+  @ResponseBody 
+  public String getNewProjectResultStatus(@RequestBody Project data){
+      JSONObject jsonObj = new JSONObject();
+      jsonObj.put("projectName", data.getProjectName());
+      jsonObj.put("projectDescription", data.getProjectDescription());
+      jsonObj.put("productOwnerName", data.getProductOwnerName());
+      jsonObj.put("worktype", data.getWorkType());
+      jsonObj.put("deadline", data.getDeadline());
+      jsonObj.put("maximumBudget", data.getMaximumBudget());
 
-    return jsonObj.toJSONString();
-      // return new JSONMessage(
-    // data.getProjectName() + " " +
-    // data.getProjectDescription() + " " +
-    // data.getProductOwnerName() + " " +
-    // data.getWorkType() + " " +
-    // data.getDeadline() + " " +          
-    // data.getMaximumBudget() + " " 
-    // );
+      return jsonObj.toJSONString();
+  }
 
 }
 
-}
+
 
 
