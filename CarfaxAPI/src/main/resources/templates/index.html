@@ -20,6 +20,7 @@
         border-style: solid;
         border-width: thin;   
         border-color: darkgray;
+        background-color: #99ccff;
     }
     .inside{
         padding-left: 5px;
@@ -146,12 +147,12 @@ $( "#newProjForm" ).submit(function( event ) {
           projectName: $("#projectName" ).val(),
           projectDescription:$("#projectDescription" ).val(),
           productOwner:$("#productOwner" ).val(),
-          worktype:{
-              frontend:$("#frontend").val(),
-              backend:$("#backend").val(),
-              ux:$("#ux").val(),
-              sysadmin:$("#sysadmin").val(),
-              other:$("#other").val()
+          workType:{
+              frontend:$("#frontend").is(':checked').toString(),
+              backend:$("#backend").is(':checked').toString(),
+              ux:$("#ux").is(':checked').toString(),
+              sysadmin:$("#sysadmin").is(':checked').toString(),
+              other:$("#other").is(':checked').toString()
           },
           deadline:$( "#deadline" ).val(),
           maximumBudget:$( "#maximumBudget" ).val()

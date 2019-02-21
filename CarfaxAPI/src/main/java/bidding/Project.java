@@ -2,11 +2,16 @@ package bidding;
 import org.joda.time.LocalDate;
 import java.util.UUID;
 import java.util.ArrayList;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /*
 Create a Project with at least the following fields: ID, Name, Owner, Description, Work Type (eg, frontend,
 backend, ux, sysadmin), Deadline, Maximum Budget (starting bid), Lowest Bid (defaults to null), and Lowest
@@ -18,6 +23,8 @@ Query for Projects based on Name (fuzzy match), Work Type, and where the Deadlin
 
 public class Project {
 
+    private static Logger log = LoggerFactory.getLogger(Application.class);
+
     private long id; //use uuid later
     private String projectName="none";
     private String productOwner="none";
@@ -25,8 +32,7 @@ public class Project {
     private String projectDescription= "none";
     private String workType = "empty"; //json string
   
-    //private final LocalDate deadline; // = new LocalDate().now();
-    private String deadline="none";
+    private Date deadline;
     private double maximumBudget=-1.0;
     private double lowestBid = -1.0;
     private String lowestBidder="none"; //string for now..
@@ -38,25 +44,25 @@ public class Project {
     private boolean sysadmin = false;
     private boolean other = false;
 
-    // public ProductOwner(long id, String firstName, String lastName){
-    //     this.id = id;
-    //     this.firstName = firstName;
-    //     this.lastName = lastName;
-    // }
-
-    // public ProductOwner(String firstName, String lastName){
-    //     this.firstName = firstName;
-    //     this.lastName = lastName;
-    // }
-
-    // public ProductOwner(){
-        
-    // }
-    public Project(long id, String projectName, String projectDescription, String productOwner){
+    public Project(long id, String projectName, String projectDescription, String productOwner, String deadline, float maximumBudget,
+                   boolean frontend, boolean backend, boolean ux, boolean sysadmin, boolean other) {
         this.id = id;
         this.projectDescription = projectDescription;
         this.projectName = projectName;
         this.productOwner = productOwner;
+        try{
+        this.deadline = sqlDateStringToUtilDate(deadline);
+        }
+        catch(Exception ex){
+            log.info("Failed to convert date: " + ex);
+        }
+        //Work type flags
+        this.maximumBudget = maximumBudget;
+        this.frontend = frontend;
+        this.backend = backend;
+        this.ux = ux;
+        this.sysadmin = sysadmin;
+        this.other = other;
     }
 
     public Project(String projectName, String projectDescription, String productOwner){
@@ -92,8 +98,42 @@ public class Project {
         return workType;
     }
 
+    public boolean getFrontend(){
+        return frontend;
+    }
+
+    public boolean getBackend(){
+        return backend;
+    }
+
+    public boolean getUx(){
+        return ux;
+    }
+
+    public boolean getSysadmin(){
+        return sysadmin;
+    }
+
+    public boolean getOther(){
+        return other;
+    }
+
+    public static String boolAsIntStr(boolean value){   
+        
+        return (value ? "1" : "0");
+    }
+
     public String getDeadline(){
         return deadline.toString();
+    }
+
+    public String getDeadlineAsSqlDate() throws Exception{
+        return new java.sql.Date(deadline.getTime()).toString();
+    }
+
+    public Date sqlDateStringToUtilDate(String date) throws Exception{
+        Date myDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        return myDate;
     }
   
     public String getMaximumBudget(){
@@ -122,26 +162,26 @@ public class Project {
         this.projectDescription = projectDescription;
     }
 
-    public void setWorkType(String workType){
-        JSONParser parser = new JSONParser();
-        JSONObject json;
+    public void setWorkType(JSONObject workType){ 
+        log.info("json before parsing is " + workType.toJSONString() + " \n\n\n");
+        
         try{
-        json = (JSONObject) parser.parse(workType);
-        this.frontend = (boolean) json.get("frontend");
-        this.backend = (boolean) json.get("backend");
-        this.ux = (boolean) json.get("ux");
-        this.sysadmin = (boolean) json.get("sysadmin");
-        this.other = (boolean) json.get("other");
-        this.workType = json.toJSONString();
+        this.frontend = Boolean.parseBoolean(workType.get("frontend").toString());
+        this.backend = Boolean.parseBoolean(workType.get("backend").toString());
+        this.ux = Boolean.parseBoolean(workType.get("ux").toString());
+        this.sysadmin = Boolean.parseBoolean(workType.get("sysadmin").toString());
+        this.other = Boolean.parseBoolean (workType.get("other").toString());
+        this.workType = workType.toJSONString();
+        log.info("worktype as json string is " + workType + "\n");
         }
         catch(Exception ex){
-            System.out.println("Setting worktype failed");
+            log.info("Setting worktype failed with exception of: " + ex + "\n");
         }
 
     }
 
-    public void setDeadline(String deadline){
-        this.deadline = deadline;
+    public void setDeadline(String deadline) throws Exception{
+        this.deadline = sqlDateStringToUtilDate(deadline);
     }
 
     public void setMaximumBudget(String maximumBudget){
@@ -173,8 +213,9 @@ public class Project {
     @Override
     public String toString() {
         return String.format(
-                "Project[id=%d, projectName='%s', projectDescription='%s', productOwner='%s']",
-                 id, projectName, projectDescription, productOwner);
+                "Project[id=%d, projectName='%s', projectDescription='%s', productOwner='%s', deadline='%s', maximumBudget='%f', frontend='%s', backend='%s', ux='%s', sysadmin='%s', other='%s']",
+                 id, projectName, projectDescription, productOwner, deadline, maximumBudget,
+                 frontend, backend, ux, sysadmin, other);
     }
 
 }

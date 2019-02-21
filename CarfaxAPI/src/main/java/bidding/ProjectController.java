@@ -68,13 +68,13 @@ public class ProjectController {
   public String getNewProjectResultStatus(@RequestBody Project data) throws Exception{
 
       ProjectDAO proj = new ProjectDAO();
-      proj.insertProjectNameAndDescriptionAndPO(data);
+      proj.insertNewProject(data);
 
       JSONObject jsonObj = new JSONObject();
       jsonObj.put("projectName", data.getProjectName());
       jsonObj.put("projectDescription", data.getProjectDescription());
       jsonObj.put("productOwner", data.getProductOwner());
-      jsonObj.put("worktype", data.getWorkType());
+      jsonObj.put("workType", data.getWorkType());
       jsonObj.put("deadline", data.getDeadline());
       jsonObj.put("maximumBudget", data.getMaximumBudget());
 
