@@ -36,28 +36,6 @@ import java.util.ArrayList;
 
 @RestController
 public class ProjectController {
- 
-  @RequestMapping(
-    value = "/newProductOwner", 
-    method = RequestMethod.POST,
-    produces = "application/json;charset=UTF-8"
-  )
-  @ResponseBody 
-  public String getNewProductOwnerResultStatus(@RequestBody ProductOwner data) throws Exception{
-      
-      ProductOwnerDAO poDAO = new ProductOwnerDAO();
-      poDAO.insertFirstAndLastName(data);
-    
-      JSONObject jsonObj = new JSONObject();
-      jsonObj.put("firstName", data.getFirstName());
-      jsonObj.put("lastName", data.getLastName());
-      jsonObj.put("username", data.getUsername());
-      jsonObj.put("password", data.getPassword());
-      jsonObj.put("email", data.getEmail());
-      jsonObj.put("uuid", data.getId());
-      
-      return jsonObj.toJSONString();
-  }
 
   @RequestMapping(
     value = "/newProject", 

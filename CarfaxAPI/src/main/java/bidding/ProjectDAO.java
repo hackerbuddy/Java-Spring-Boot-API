@@ -30,13 +30,6 @@ public class ProjectDAO{
 
     public static void insertNewProject(Project proj) throws Exception {
 
-        //note: there is a some hardcoding of arrays here-- somewhat justified since 
-        //we don't want other fields--just specifically these, but will revisit to shorten code
-
-        //Also note that I considered making a general DAO that accepts parameters and gives full
-        //SQL insert and update/write access to whatever class calls it but this seems like
-        //a bad security practice
-
         try{
         //Split up the array of whole names into an array of first/last names
         ArrayList<Object[]> listOfProjects = new ArrayList<Object[]>();
@@ -46,7 +39,6 @@ public class ProjectDAO{
         arrayOfStringFields[2] = proj.getProductOwner();
         arrayOfStringFields[3] = proj.getDeadlineAsSqlDate();
         arrayOfStringFields[4] = proj.getMaximumBudget();
-
         //Worktype flags
         arrayOfStringFields[5] = proj.boolAsIntStr(proj.getFrontend());
         arrayOfStringFields[6] = proj.boolAsIntStr(proj.getBackend());
@@ -54,19 +46,13 @@ public class ProjectDAO{
         arrayOfStringFields[8] = proj.boolAsIntStr(proj.getSysadmin());
         arrayOfStringFields[9] = proj.boolAsIntStr(proj.getOther());
         
-       // log.info(String.format("the sql date is %s", proj.getDeadlineAsSqlDate()));
-
         listOfProjects.add(arrayOfStringFields);
 
         //this jdbc template format comes from https://spring.io/guides/gs/relational-data-access/
-
-        listOfProjects.forEach(name -> log.info(String.format(
-                "Inserting project record for %s %s %s %s %s %s %s %s %s %s", 
-                 arrayOfStringFields[0],arrayOfStringFields[1],arrayOfStringFields[2],
-                 arrayOfStringFields[3],arrayOfStringFields[4],arrayOfStringFields[5],
-                 arrayOfStringFields[6],arrayOfStringFields[7],arrayOfStringFields[8],
-                 arrayOfStringFields[9])));
-
+        log.info("\n");
+        log.info("New entry into db: ");
+        listOfProjects.forEach(name -> Arrays.stream(arrayOfStringFields).forEach(i -> log.info(i)));
+        
         // Uses JdbcTemplate's batchUpdate opesration to bulk load data
         jdbcTemplate.batchUpdate("INSERT INTO projects(project_name, project_description, product_owner, deadline, maximum_budget, frontend, backend, ux, sysadmin, other) VALUES (?,?,?,?,?,?,?,?,?,?)", listOfProjects);
 

@@ -14,10 +14,13 @@ public class ProductOwner{
     private ArrayList<Project> projectsForSale = new ArrayList<Project>(); 
     private ArrayList<Project> projectsSold = new ArrayList<Project>(); 
 
-    public ProductOwner(long id, String firstName, String lastName){
+    public ProductOwner(long id, String firstName, String lastName, String username, String password, String email){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.email = email;
     }
 
     public ProductOwner(String firstName, String lastName){
@@ -66,7 +69,7 @@ public class ProductOwner{
     @Override
     public String toString() {
         return String.format(
-                "ProductOwner[id=%d, firstName='%s', lastName='%s']",
-                id, firstName, lastName);
+                "ProductOwner[id=%d, firstName='%s', lastName='%s', username=%s, password='%s', email='%s']",
+                id, firstName, lastName, username, password, email);
     }
 }

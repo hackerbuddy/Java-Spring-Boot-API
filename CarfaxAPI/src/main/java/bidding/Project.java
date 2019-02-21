@@ -163,8 +163,6 @@ public class Project {
     }
 
     public void setWorkType(JSONObject workType){ 
-        log.info("json before parsing is " + workType.toJSONString() + " \n\n\n");
-        
         try{
         this.frontend = Boolean.parseBoolean(workType.get("frontend").toString());
         this.backend = Boolean.parseBoolean(workType.get("backend").toString());
@@ -172,7 +170,6 @@ public class Project {
         this.sysadmin = Boolean.parseBoolean(workType.get("sysadmin").toString());
         this.other = Boolean.parseBoolean (workType.get("other").toString());
         this.workType = workType.toJSONString();
-        log.info("worktype as json string is " + workType + "\n");
         }
         catch(Exception ex){
             log.info("Setting worktype failed with exception of: " + ex + "\n");
